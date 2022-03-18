@@ -1,0 +1,3114 @@
+[
+    {
+        "id": "5a614edf.32654",
+        "type": "tab",
+        "label": "Basic Transmissions - Feature",
+        "disabled": false,
+        "info": "Version 2022_02_02",
+        "env": []
+    },
+    {
+        "id": "79f3beff9e89fb63",
+        "type": "tab",
+        "label": "FFT - Feature",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "371f885e4cf9bb93",
+        "type": "tab",
+        "label": "Configure FFT Sensors - Feature",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "17dc2d35.d569cb",
+        "type": "mqtt-broker",
+        "name": "mqtt.iiot.advancedtech.com",
+        "broker": "${MQTT_HOST}",
+        "port": "1883",
+        "clientid": "${MQTT_USER}",
+        "autoConnect": false,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "credentials": {
+            "user": "${MQTT_USER}",
+            "password": "${MQTT_PASS}"
+        },
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "8ea87dced5dc17d0",
+        "type": "ncd-gateway-config",
+        "name": "",
+        "comm_type": "serial",
+        "ip_address": "",
+        "tcp_port": "2101",
+        "port": "/dev/ttyUSB0",
+        "baudRate": "115200",
+        "pan_id": "7fff",
+        "rssi": true
+    },
+    {
+        "id": "9118a067.136328",
+        "type": "comment",
+        "z": "5a614edf.32654",
+        "name": "Usernames and Passwords Here",
+        "info": "SSH Username: pi\nSSH Password: 5p4rt4nS\n\nMQTT User: R_294\nPass: NtVz3jdfvN",
+        "x": 150,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "6b301443.be20bc",
+        "type": "switch",
+        "z": "5a614edf.32654",
+        "name": "is FFT?",
+        "property": "payload.sensor_data.en_axis",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 380,
+        "y": 620,
+        "wires": [
+            [
+                "5a88aa7032180c0d"
+            ],
+            [
+                "71c79ed3.eb99d"
+            ]
+        ]
+    },
+    {
+        "id": "a0f1f4e1.2d797",
+        "type": "debug",
+        "z": "5a614edf.32654",
+        "name": "Unknown",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 260,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "c017f04a.f72c88",
+        "type": "inject",
+        "z": "5a614edf.32654",
+        "name": "Set Globals",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 180,
+        "wires": [
+            [
+                "501d7b51.ed6094"
+            ]
+        ]
+    },
+    {
+        "id": "501d7b51.ed6094",
+        "type": "change",
+        "z": "5a614edf.32654",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "gateway",
+                "pt": "flow",
+                "to": "MQTT_USER",
+                "tot": "env"
+            },
+            {
+                "t": "set",
+                "p": "gateway",
+                "pt": "global",
+                "to": "MQTT_USER",
+                "tot": "env"
+            },
+            {
+                "t": "set",
+                "p": "dashboard_url",
+                "pt": "global",
+                "to": "https://600f057008bba500069f0df0.onlosant.com/api/fft-requestor",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7bc6956d.51136c",
+        "type": "debug",
+        "z": "5a614edf.32654",
+        "name": "Predictive Type 82",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "payload.addr",
+        "statusType": "msg",
+        "x": 470,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "71c79ed3.eb99d",
+        "type": "switch",
+        "z": "5a614edf.32654",
+        "name": "is RUN, PGM, ACK?",
+        "property": "payload.mode",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "RUN",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "PGM",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "ACK",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 4,
+        "x": 620,
+        "y": 640,
+        "wires": [
+            [
+                "c1494b1f.d8b1d"
+            ],
+            [
+                "c1494b1f.d8b1d"
+            ],
+            [
+                "c1494b1f.d8b1d"
+            ],
+            [
+                "d5e4a04c.db3968"
+            ]
+        ]
+    },
+    {
+        "id": "c1494b1f.d8b1d",
+        "type": "debug",
+        "z": "5a614edf.32654",
+        "name": "Utility Transmission - Mode = RUN, PGM or ACK",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 980,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "d5e4a04c.db3968",
+        "type": "switch",
+        "z": "5a614edf.32654",
+        "name": "is GATEWAY?",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "modem_mac",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 640,
+        "y": 720,
+        "wires": [
+            [
+                "c1494b1f.d8b1d"
+            ],
+            [
+                "03602f785563e1a6"
+            ]
+        ]
+    },
+    {
+        "id": "5a88aa7032180c0d",
+        "type": "debug",
+        "z": "5a614edf.32654",
+        "name": "See the Flow Named 'FFT - Feature'",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "b192fc34768290da",
+        "type": "comment",
+        "z": "5a614edf.32654",
+        "name": "Ignore Utility Transmissions such as RUN, PGM, ACK or the Gateway itself",
+        "info": "",
+        "x": 800,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "03602f785563e1a6",
+        "type": "function",
+        "z": "5a614edf.32654",
+        "name": "Set Topic - Normal Sensors",
+        "func": "let gateway_name = flow.get(\"gateway\");\n//node.warn(\"trying to uppercase \" + msg.payload.addr)\nmsg.payload.addr = msg.payload.addr.toUpperCase();\nsensor_mac = msg.payload.addr\nmsg.topic = \"gateway/v02/\" + gateway_name + \"/sensor/\" + msg.payload.addr\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 920,
+        "y": 720,
+        "wires": [
+            [
+                "8af810e7c8e5e569"
+            ]
+        ]
+    },
+    {
+        "id": "f193cdd03b49c463",
+        "type": "comment",
+        "z": "5a614edf.32654",
+        "name": "Last Modified/Version: 2022_02_23",
+        "info": "",
+        "x": 440,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "5f4afaccbd52f00b",
+        "type": "comment",
+        "z": "5a614edf.32654",
+        "name": "readme",
+        "info": "For this Feature Flow to function properly, you must configure the Environment variables via the file named ats-variables.js located at /home/pi/.node-red\n\nAt the top of settings.js, right before module.exports, add a line that says:\n\nvar env_external = require(\"./ats-variables.js\");\n\n\nThe ats-variables.js file contents looks like this:\n\nmodule.exports =  {\n\nMQTTHOST: process.env.MQTTHOST = \"mqtt.iiot.advancedtech.com\",\nMQTTUSER: process.env.MQTTUSER = \"uname here\",\nMQTTPASS: process.env.MQTTPASS = \"pwhere\"\n\n}\n\n\nThe Environment Variables in use are \n\n${MQTTUSER}\n${MQTTHOST}\n${MQTTPASS}\n\n\nSteps:\n\nSSH into the Raspberry Pi\ncd ./node-red\nnano ats-variables.js\n\n\n2022-02-02\nNo major changes. Incrementing version to align with FFT-Feature",
+        "x": 350,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "7e8b5586b9309547",
+        "type": "debug",
+        "z": "5a614edf.32654",
+        "name": "Output to mqtt.iiot.advancedtech.com",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1170,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "8af810e7c8e5e569",
+        "type": "switch",
+        "z": "5a614edf.32654",
+        "name": "Is Type 80, 81 or 82?",
+        "property": "payload.sensor_type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "80",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "81",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "82",
+                "vt": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 4,
+        "x": 860,
+        "y": 960,
+        "wires": [
+            [
+                "6035fec8cd22d831",
+                "e7442e1a2dedc02d"
+            ],
+            [
+                "6035fec8cd22d831",
+                "e7442e1a2dedc02d"
+            ],
+            [
+                "e7442e1a2dedc02d",
+                "6035fec8cd22d831"
+            ],
+            [
+                "96e3999cdee1a441",
+                "7e8b5586b9309547"
+            ]
+        ]
+    },
+    {
+        "id": "6035fec8cd22d831",
+        "type": "debug",
+        "z": "5a614edf.32654",
+        "name": "IsType80, Type81 or Type82",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1150,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "e7442e1a2dedc02d",
+        "type": "switch",
+        "z": "5a614edf.32654",
+        "name": "Head Disconnected?",
+        "property": "payload.data.error",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Error found, Sensor Probe may be unattached",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 2,
+        "x": 1120,
+        "y": 940,
+        "wires": [
+            [
+                "363b2b92c3c4a7ab"
+            ],
+            [
+                "f35ea3cb4ff144f4"
+            ]
+        ]
+    },
+    {
+        "id": "363b2b92c3c4a7ab",
+        "type": "function",
+        "z": "5a614edf.32654",
+        "name": "Zero Out Data Fields",
+        "func": "msg.payload.sensor_data = \n    { \"mode\": 2, \n      \"odr\": \"800Hz\", \n      \"temperature\": 0.0, \n      \"x_rms_ACC_G\": 0, \n      \"x_max_ACC_G\": 0, \n      \"x_velocity_mm_sec\": 0, \n      \"x_displacement_mm\": 0, \n      \"x_peak_one_Hz\": 0, \n      \"x_peak_two_Hz\": 0, \n      \"x_peak_three_Hz\": 0, \n      \"y_rms_ACC_G\": 0, \n      \"y_max_ACC_G\": 0, \n      \"y_velocity_mm_sec\": 0, \n      \"y_displacement_mm\": 0, \n      \"y_peak_one_Hz\": 0, \n      \"y_peak_two_Hz\": 0, \n      \"y_peak_three_Hz\": 0, \n      \"z_rms_ACC_G\": 0, \n      \"z_max_ACC_G\": 0, \n      \"z_velocity_mm_sec\": 0, \n      \"z_displacement_mm\": 0, \n      \"z_peak_one_Hz\": 0, \n      \"z_peak_two_Hz\": 0, \n      \"z_peak_three_Hz\": 0 \n      }\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1480,
+        "y": 920,
+        "wires": [
+            [
+                "5ea84c197144cf76",
+                "0de53e59532f6459"
+            ]
+        ]
+    },
+    {
+        "id": "5ea84c197144cf76",
+        "type": "debug",
+        "z": "5a614edf.32654",
+        "name": "Zeroed Output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1740,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "96e3999cdee1a441",
+        "type": "mqtt out",
+        "z": "5a614edf.32654",
+        "name": "mqtt.iiot.advancedtech.com",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "17dc2d35.d569cb",
+        "x": 1140,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "0de53e59532f6459",
+        "type": "mqtt out",
+        "z": "5a614edf.32654",
+        "name": "mqtt.iiot.advancedtech.com",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "17dc2d35.d569cb",
+        "x": 1780,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "0430957f7fec39e7",
+        "type": "debug",
+        "z": "5a614edf.32654",
+        "name": "MQTT_USER",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 1130,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "b5871242ed2993dd",
+        "type": "change",
+        "z": "5a614edf.32654",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "MQTT_USER",
+                "tot": "env"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 920,
+        "y": 120,
+        "wires": [
+            [
+                "0430957f7fec39e7"
+            ]
+        ]
+    },
+    {
+        "id": "580f59427496f235",
+        "type": "inject",
+        "z": "5a614edf.32654",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 710,
+        "y": 60,
+        "wires": [
+            [
+                "16a99ea4878234c9",
+                "b5871242ed2993dd",
+                "373ce0c534460290"
+            ]
+        ]
+    },
+    {
+        "id": "9a23522c7d54dcc9",
+        "type": "debug",
+        "z": "5a614edf.32654",
+        "name": "MQTT_HOST",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 1120,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "16a99ea4878234c9",
+        "type": "change",
+        "z": "5a614edf.32654",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "MQTT_HOST",
+                "tot": "env"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 920,
+        "y": 60,
+        "wires": [
+            [
+                "9a23522c7d54dcc9"
+            ]
+        ]
+    },
+    {
+        "id": "f35ea3cb4ff144f4",
+        "type": "function",
+        "z": "5a614edf.32654",
+        "name": "Normal Transmission",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1480,
+        "y": 960,
+        "wires": [
+            [
+                "0de53e59532f6459"
+            ]
+        ]
+    },
+    {
+        "id": "4b1a715df8f094ee",
+        "type": "ncd-gateway-node",
+        "z": "5a614edf.32654",
+        "name": "",
+        "connection": "8ea87dced5dc17d0",
+        "unknown_devices": true,
+        "outputs": 2,
+        "x": 130,
+        "y": 620,
+        "wires": [
+            [
+                "6b301443.be20bc",
+                "249b6566e29bfa39"
+            ],
+            [
+                "a0f1f4e1.2d797"
+            ]
+        ]
+    },
+    {
+        "id": "d0a64eb6456b8138",
+        "type": "comment",
+        "z": "5a614edf.32654",
+        "name": "Version",
+        "info": "2022_02_23",
+        "x": 350,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "8c5d79cb2a76b56b",
+        "type": "debug",
+        "z": "5a614edf.32654",
+        "name": "MQTT_PASS",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 1130,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "373ce0c534460290",
+        "type": "change",
+        "z": "5a614edf.32654",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "MQTT_PASS",
+                "tot": "env"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 920,
+        "y": 180,
+        "wires": [
+            [
+                "8c5d79cb2a76b56b"
+            ]
+        ]
+    },
+    {
+        "id": "249b6566e29bfa39",
+        "type": "switch",
+        "z": "5a614edf.32654",
+        "name": "",
+        "property": "payload.addr",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "00:13:a2:00:41:ed:ca:27",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "00:13:a2:00:41:90:df:f9",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "00:13:a2:00:41:c3:d3:32",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 4,
+        "x": 170,
+        "y": 260,
+        "wires": [
+            [
+                "7bc6956d.51136c"
+            ],
+            [
+                "e6c92e4cca089615"
+            ],
+            [
+                "331c2c54ee7e47aa"
+            ],
+            [
+                "bb1e7396982879a7"
+            ]
+        ]
+    },
+    {
+        "id": "e6c92e4cca089615",
+        "type": "debug",
+        "z": "5a614edf.32654",
+        "name": "V2 Vib",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "payload.addr",
+        "statusType": "msg",
+        "x": 430,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "331c2c54ee7e47aa",
+        "type": "debug",
+        "z": "5a614edf.32654",
+        "name": "TCVP (Type 81)",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "payload.addr",
+        "statusType": "msg",
+        "x": 460,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "bb1e7396982879a7",
+        "type": "debug",
+        "z": "5a614edf.32654",
+        "name": "Otherwise",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "b79c7e5b1d7c46e7",
+        "type": "switch",
+        "z": "79f3beff9e89fb63",
+        "name": "Vibration Check Valve",
+        "property": "payload.sensor_type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "btwn",
+                "v": "80",
+                "vt": "num",
+                "v2": "82",
+                "v2t": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 400,
+        "y": 540,
+        "wires": [
+            [
+                "5a9ca3a1ba7eae89",
+                "833ea705364f491e",
+                "26f32bbdd8fbbcbd"
+            ]
+        ]
+    },
+    {
+        "id": "f8df2becdde3fc17",
+        "type": "delay",
+        "z": "79f3beff9e89fb63",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "100",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "outputs": 1,
+        "x": 1510,
+        "y": 380,
+        "wires": [
+            [
+                "1a69a526f120312a"
+            ]
+        ]
+    },
+    {
+        "id": "1c6b9972cfc931da",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "One Channel Request FFT Sent",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload.addr",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 1580,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "f3e4c1ab5855949f",
+        "type": "comment",
+        "z": "79f3beff9e89fb63",
+        "name": "Request FFT",
+        "info": "",
+        "x": 130,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "b1cf3d4c278b7f4f",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "One Channel Not in Context Array",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 1580,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "7672300daffcb2db",
+        "type": "function",
+        "z": "79f3beff9e89fb63",
+        "name": "(Single Channel) New Check Devices",
+        "func": "var devices = flow.get('devices');\nvar ramdevices = flow.get('ramdevices');\nvar deviceID = msg.payload.addr.toUpperCase();\nif(typeof devices == 'undefined')return;\nif(typeof ramdevices == 'undefined'){\n    ramdevices = [];\n    flow.set('ramdevices',ramdevices);\n    \n}\nfor(i = 0; i < devices.length; i++){\n    // console.log('device: '+devices[i]+' deviceID: '+deviceID);\n    if(deviceID.toUpperCase() == devices[i].toUpperCase() && msg.payload.sensor_data.hasOwnProperty(\"x_rms_ACC_G\")){\n        if(ramdevices.includes(deviceID)){\n          msg.payload.address = deviceID; \n          //node.warn(\"ramdevices DID include this deviceID\")\n          node.warn(\"Sending direct FFT Request to \" + deviceID)\n        }\n        else{\n           msg.payload.address = \"00:00:00:00:00:00:ff:ff\" ;\n           ramdevices.push(deviceID);\n           //node.warn(\"ramdevices DID NOT include this deviceID, sending request broadcast\")\n           node.warn(\"Sending FFT Request as Broadcast for \" + deviceID)\n        }\n //       msg.payload.address = deviceID;\n        // msg.payload.address = \"00:00:00:00:00:00:ff:ff\"\n        msg.payload.data = [0xF4,0x4F,0x00,0x00,0x50,0x13];\n        // devices.splice(i,1);\n        flow.set(\"ramdevices\",ramdevices);\n        return [msg, null];\n        \n    }\n}\n\nreturn [null, msg]",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1170,
+        "y": 500,
+        "wires": [
+            [
+                "1c6b9972cfc931da",
+                "f8df2becdde3fc17",
+                "9d56bbb1517c0c0c"
+            ],
+            [
+                "b1cf3d4c278b7f4f"
+            ]
+        ]
+    },
+    {
+        "id": "5a9ca3a1ba7eae89",
+        "type": "switch",
+        "z": "79f3beff9e89fb63",
+        "name": "is Normal Transmission (80)",
+        "property": "payload.sensor_data.x_rms_ACC_G",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 660,
+        "y": 480,
+        "wires": [
+            [
+                "068aa04690d9a782"
+            ]
+        ]
+    },
+    {
+        "id": "efbae8e06f3572b1",
+        "type": "comment",
+        "z": "79f3beff9e89fb63",
+        "name": "FFT Requestor",
+        "info": "",
+        "x": 140,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "9d56bbb1517c0c0c",
+        "type": "function",
+        "z": "79f3beff9e89fb63",
+        "name": "Add incomming device to context",
+        "func": "var requested_device = msg.payload.addr.toUpperCase()\nvar requested_devices_object = {}\nvar currentTime = Date.now();\n\n\n\nvar recent_time_domain_requests = flow.get('recent_time_domain_requests');\n\nif(typeof recent_time_domain_requests == 'undefined'){\n    requested_devices_object[requested_device] = currentTime\n    flow.set('recent_time_domain_requests',requested_devices_object);\n    return msg;\n    // Flow Object was empty, set it and done.\n}else{\n    var exists = false;\n    if (recent_time_domain_requests.hasOwnProperty(requested_device))\n    {\n        //node.warn(\"already exists\")\n        exists = true;\n    } else {\n        //node.warn(\"does not exist\")\n        exists = false;\n        requested_devices_object[requested_device] = currentTime\n        flow.set('recent_time_domain_requests',requested_devices_object);\n    }\n    \n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1570,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d2fe300c5c514184",
+        "type": "inject",
+        "z": "79f3beff9e89fb63",
+        "name": "RAMDEVICES Watchdog (PURGE TRUE)",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "purge",
+                "v": "true",
+                "vt": "str"
+            },
+            {
+                "p": "threshold_minutes",
+                "v": "35",
+                "vt": "num"
+            }
+        ],
+        "repeat": "30",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 250,
+        "y": 660,
+        "wires": [
+            [
+                "4482c23ab0fdca8c"
+            ]
+        ]
+    },
+    {
+        "id": "4482c23ab0fdca8c",
+        "type": "function",
+        "z": "79f3beff9e89fb63",
+        "name": "Purge old RAMDEVICES",
+        "func": "var currenttime = Date.now();\nvar recent_time_domain_requests = flow.get('recent_time_domain_requests')\n\nvar newmsg = {}\nnewmsg.payload = {}\n\nfor (var key in recent_time_domain_requests)\n    {\n    //Compare current time to request time    \n    var request_time = recent_time_domain_requests[key];\n    var time_difference = (currenttime - request_time);\n    var time_difference_minutes = Math.floor((time_difference/1000/60) << 0)\n    var time_difference_sec = Math.floor((time_difference/1000) % 60)\n    newmsg.payload.current_time = currenttime\n    newmsg.payload.request_time = request_time\n    newmsg.payload.time_difference = time_difference_minutes + \":\" + time_difference_sec\n    //node.warn(\"Threshold: \" + msg.threshold_minutes + \" Diff: \" + time_difference_minutes)\n\n    if ( (time_difference_minutes >= msg.threshold_minutes ) && msg.purge == 'true')\n        {\n            //delete recent_time_domain_requests[key]\n            node.warn(\"Prepare to delete key: \" + key)\n            \n            var ramdevices = flow.get('ramdevices');\n\n            if(typeof ramdevices == 'undefined'){\n                ramdevices = [];\n                flow.set('ramdevices',ramdevices);\n                \n            }\n            for(i = 0; i < ramdevices.length; i++){\n                if(key == ramdevices[i] )\n                    {\n                    ramdevices.splice(i,1);\n                    flow.set(\"ramdevices\",ramdevices);\n                }\n            }\n        // Purge it from recent_time_domain_requests as well\n        delete recent_time_domain_requests[key]\n        node.warn(\"Failed to get FFT from this sensor via direct message. Reverting to broadcast Message. Purged \" + key + \" from ramdevices and recent time domain requests.\")\n        } else {\n            // purge was false\n            //node.warn(\"For: \" + key + \" m: \" + time_difference_minutes + \" s: \" + time_difference_sec)\n            \n        }\n    }\n    \nreturn newmsg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 680,
+        "wires": [
+            [
+                "5f404ce21b129ebc"
+            ]
+        ]
+    },
+    {
+        "id": "5f404ce21b129ebc",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "RAMDEVICES Purged",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "d8a4bb3dcd39d38d",
+        "type": "inject",
+        "z": "79f3beff9e89fb63",
+        "name": "Check Age of Recent Time Domain Requests",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "purge",
+                "v": "false",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 250,
+        "y": 700,
+        "wires": [
+            [
+                "4482c23ab0fdca8c"
+            ]
+        ]
+    },
+    {
+        "id": "1d2e82e0311c1ba0",
+        "type": "function",
+        "z": "79f3beff9e89fb63",
+        "name": "Prepare HTTP Get",
+        "func": "msg.url = global.get(\"dashboard_url\") + \"/?gatewayId=\" + global.get(\"gateway\")\nmsg.headers = {\n                        \"Authorization\": 'euFOoxczQGaW13o8AXh5EnIa6CogGdu6S7BPKZjO67SvRIxImVYuWWB2M8'\n                }\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 1140,
+        "wires": [
+            [
+                "90f8668ed0c5bf02"
+            ]
+        ]
+    },
+    {
+        "id": "ed2739c29b51c44b",
+        "type": "inject",
+        "z": "79f3beff9e89fb63",
+        "name": "Every Minute",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 1140,
+        "wires": [
+            [
+                "6212e371edf0b9b4"
+            ]
+        ]
+    },
+    {
+        "id": "90f8668ed0c5bf02",
+        "type": "http request",
+        "z": "79f3beff9e89fb63",
+        "name": "GET Requests",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 820,
+        "y": 1140,
+        "wires": [
+            [
+                "1bd3e944320fe7ee",
+                "a6a11038c3c078f8"
+            ]
+        ]
+    },
+    {
+        "id": "1bd3e944320fe7ee",
+        "type": "function",
+        "z": "79f3beff9e89fb63",
+        "name": "Process Requests",
+        "func": "\nvar existingDevices = flow.get('devices');\n\nfor (var eachDevice in msg.payload.devices)\n    {\n        //node.warn(\"Status: \" + msg.payload.devices[eachDevice].status)\n        if (msg.payload.devices[eachDevice].status == 'requested')\n            {\n                // eachDevice.sensor_hardware_mac ++ to flow.devices\n                // Send Message to POST to mark as In Progress\n                var newDevices = []\n                newDevices.push(msg.payload.devices[eachDevice].sensor_hardware_mac.toUpperCase())\n                if(typeof existingDevices == 'undefined'){\n                    node.warn(\"existingDevices undefined\")\n                    flow.set('devices',newDevices);\n                \n                }else{\n                    for(let newDevice of newDevices){\n                        exists = false;\n                        for(let existingDevice of existingDevices){\n                            if(newDevice == existingDevice){\n                                exists = true;\n                                node.warn(\"Break as existing already\")\n                                break;\n                            }\n                        }\n                        if(!exists){\n                            existingDevices.push(newDevice);\n                            node.warn(\"add newDevice\")\n                        } \n                    }\n                }\n                \n                //flow.set('devices',existingDevices);\n                \n                var newmsg = {}\n                newmsg.url = global.get(\"dashboard_url\")\n                newmsg.method = \"PUT\"\n                newmsg.payload = \n                        {\n                            \"deviceId\": msg.payload.devices[eachDevice].deviceId,\n                            \"gateway\": global.get(\"gateway\"),\n                            \"status\"  : \"pending\"\n                        }\n                newmsg.headers = {\n                        \"Authorization\": 'euFOoxczQGaW13o8AXh5EnIa6CogGdu6S7BPKZjO67SvRIxImVYuWWB2M8'\n                    }\n                node.send([null, newmsg])\n            }\n    }\nreturn [msg, null];\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1030,
+        "y": 1140,
+        "wires": [
+            [
+                "84a37b04ee6582a6"
+            ],
+            [
+                "5a0426bce3d15142",
+                "d9e24807ae881c5d"
+            ]
+        ]
+    },
+    {
+        "id": "84a37b04ee6582a6",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "Main Return",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1270,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "5a0426bce3d15142",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "ForEach Return",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1280,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "d9e24807ae881c5d",
+        "type": "http request",
+        "z": "79f3beff9e89fb63",
+        "name": "PUT Request",
+        "method": "use",
+        "ret": "obj",
+        "paytoqs": "body",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1280,
+        "y": 1140,
+        "wires": [
+            [
+                "0997ee45df1de0c0"
+            ]
+        ]
+    },
+    {
+        "id": "0997ee45df1de0c0",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "PUT Result",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1470,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "6212e371edf0b9b4",
+        "type": "delay",
+        "z": "79f3beff9e89fb63",
+        "name": "Random Time Delay",
+        "pauseType": "random",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "15",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 380,
+        "y": 1140,
+        "wires": [
+            [
+                "1d2e82e0311c1ba0"
+            ]
+        ]
+    },
+    {
+        "id": "79a3cb611f794226",
+        "type": "inject",
+        "z": "79f3beff9e89fb63",
+        "name": "Press to Check Now",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 1180,
+        "wires": [
+            [
+                "1d2e82e0311c1ba0"
+            ]
+        ]
+    },
+    {
+        "id": "a6a11038c3c078f8",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "GET Result",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1020,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "8efb38061ab9032d",
+        "type": "switch",
+        "z": "79f3beff9e89fb63",
+        "name": "is FFT?",
+        "property": "payload.sensor_data.en_axis",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 360,
+        "y": 220,
+        "wires": [
+            [
+                "1a8a2b301a0427cc",
+                "6e742109f6cbeb2f"
+            ]
+        ]
+    },
+    {
+        "id": "bbde351a1f6433e7",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "Unknown",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 320,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "accefc8d23a96db2",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "All",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "payload.addr",
+        "statusType": "msg",
+        "x": 310,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "14d39516657564f8",
+        "type": "function",
+        "z": "79f3beff9e89fb63",
+        "name": "Set Topic - TimeDomain - One Channel",
+        "func": "\nlet gateway_name = global.get(\"gateway\");\nmsg.payload.addr = msg.payload.addr.toUpperCase();\nsensor_mac = msg.payload.addr\nmsg.topic = \"gateway/v02/\" + gateway_name + \"/time_domain/\" + msg.payload.addr\nsensor_mac = sensor_mac.toUpperCase();\n\n\n// Remove from Flow Variable as a successfull FFT\n\nlet recent_time_domain_requests = flow.get('recent_time_domain_requests')\nlet devices = flow.get('devices')\n\n\n//Commented out so I can test the timer function on this down below.\nfor ( var i = 0; i < devices.length; i++)\n    {\n        if (devices[i] == sensor_mac)\n            {\n                devices.splice(i,1);\n            }\n    } // this for loop removes the sensor from devices, indicating we've gotten the FFT we requested\n\n\ndelete recent_time_domain_requests[sensor_mac]\nflow.set('recent_time_domain_requests', recent_time_domain_requests)\nflow.set('devices', devices)\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1020,
+        "y": 240,
+        "wires": [
+            [
+                "250c90a0fb724daf",
+                "aa6f802739ce5635"
+            ]
+        ]
+    },
+    {
+        "id": "250c90a0fb724daf",
+        "type": "mqtt out",
+        "z": "79f3beff9e89fb63",
+        "name": "mqtt.iiot.advancedtech.com",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "17dc2d35.d569cb",
+        "x": 1460,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "9d960b4076e4cdb9",
+        "type": "comment",
+        "z": "79f3beff9e89fb63",
+        "name": "Listen for Incoming FFT Transmissions",
+        "info": "",
+        "x": 210,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "aa6f802739ce5635",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "FFT Output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1410,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "ca34a310dce4447f",
+        "type": "comment",
+        "z": "79f3beff9e89fb63",
+        "name": "Version: 2022_02_23",
+        "info": "",
+        "x": 160,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "f4c6cd1384388cf0",
+        "type": "comment",
+        "z": "79f3beff9e89fb63",
+        "name": "readme",
+        "info": "For this Feature Flow to function properly, you must configure the MQTT Broker Connection.\n\n2022-02-02\nIncludes adjustments for supporting two channel FFT sensor type 81 sensors.",
+        "x": 110,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "068aa04690d9a782",
+        "type": "switch",
+        "z": "79f3beff9e89fb63",
+        "name": "Sensor Heads?",
+        "property": "payload.sensor_type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "80",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "81",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "82",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 900,
+        "y": 520,
+        "wires": [
+            [
+                "7672300daffcb2db",
+                "de913af1ee59e619"
+            ],
+            [
+                "326bfb3d1ebd1d44",
+                "1019755ccdf90913"
+            ],
+            [
+                "b6781696ed9bbdcd",
+                "7a7ebf43d82d6a0d"
+            ]
+        ]
+    },
+    {
+        "id": "326bfb3d1ebd1d44",
+        "type": "function",
+        "z": "79f3beff9e89fb63",
+        "name": "(Dual Channel) New Check Devices",
+        "func": "var two_channel_devices = flow.get('two_channel_devices');\nvar ramdevices = flow.get('ramdevices');\nvar deviceID = msg.payload.addr.toUpperCase();\nif(typeof two_channel_devices == 'undefined')return;\nif(typeof ramdevices == 'undefined'){\n    ramdevices = [];\n    flow.set('ramdevices',ramdevices);\n    \n}\nfor(i = 0; i < two_channel_devices.length; i++){\n    // console.log('device: '+devices[i]+' deviceID: '+deviceID);\n    let sensor = two_channel_devices[i].Sensor\n    //node.warn('Item: ' + i + \" Sensor: \" + sensor)\n    if(deviceID.toUpperCase() == two_channel_devices[i].Sensor.toUpperCase() && msg.payload.sensor_data.hasOwnProperty(\"x1_rms_ACC_G\")){\n        msg.payload = {}\n        msg.sensor_address = deviceID\n        if(ramdevices.includes(deviceID)){\n          msg.payload.address = deviceID; \n          msg.payload.address = \"00:00:00:00:00:00:ff:ff\" ;\n          //node.warn(\"ramdevices DID include this deviceID\")\n          //node.warn(\"Sending direct FFT Request to \" + deviceID)\n          // \"Bhaskar says send it to broadcast everytime\"\n          node.warn(\"Sending FFT Request as Broadcast for \" + deviceID)\n        }\n        else{\n           msg.payload.address = \"00:00:00:00:00:00:ff:ff\" ;\n           ramdevices.push(deviceID);\n           //node.warn(\"ramdevices DID NOT include this deviceID, sending request broadcast\")\n           node.warn(\"Sending FFT Request as Broadcast for \" + deviceID)\n        }\n //       msg.payload.address = deviceID;\n        // msg.payload.address = \"00:00:00:00:00:00:ff:ff\"\n        \n        var headRequested = two_channel_devices[i].Head\n        //node.warn(\"Checking: \" + two_channel_devices[i].Sensor + \" Head: \" + two_channel_devices[i].Head)\n        let matched = \"no\"\n        if (headRequested == '1')\n            {\n                msg.payload.address = \"00:00:00:00:00:00:ff:ff\" ;\n                msg.payload.addr = \"00:00:00:00:00:00:ff:ff\" ;\n                msg.payload.data = [0xF4,0x4F,0x00,0x00,0x50,0x13,0x01]\n                //msg.payload.data = [0xF4,0x4F,0x00,0x00,0x50,0x13]\n                node.warn('Sending FFT Request for head 1')\n                matched = 'Head1'\n            } else if (headRequested == '2')\n            {\n                msg.payload.data = [0xF4,0x4F,0x00,0x00,0x50,0x13,0x02]\n                node.warn('Sending FFT Request for head 2')\n                matched = 'Head2'\n            } else {\n                // Head not Specified, error.\n                node.warn('Head not specified on FFT Request from Two Channel Sensor. The head must be specified.')\n                matched = 'None'\n            }\n            node.warn(\"Matched is: \" + matched)\n        // devices.splice(i,1);\n        flow.set(\"ramdevices\",ramdevices);\n        return [msg, null];\n    }\n}\n\nreturn [null, msg]",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1170,
+        "y": 900,
+        "wires": [
+            [
+                "68c026a824e9ed30",
+                "9856f070ac850180",
+                "cdaee958c79a6c6e"
+            ],
+            [
+                "15f94b0ac26a5126"
+            ]
+        ]
+    },
+    {
+        "id": "b02e4eb910e90996",
+        "type": "inject",
+        "z": "79f3beff9e89fb63",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 760,
+        "wires": [
+            [
+                "a4ce36e23fa3d78d"
+            ]
+        ]
+    },
+    {
+        "id": "a4ce36e23fa3d78d",
+        "type": "change",
+        "z": "79f3beff9e89fb63",
+        "name": "Add Predictive to FFT Request Context",
+        "rules": [
+            {
+                "t": "set",
+                "p": "devices",
+                "pt": "flow",
+                "to": "[\"00:13:A2:00:41:ED:CA:27\"]",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 450,
+        "y": 760,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "68c026a824e9ed30",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "TwoChannel FFT Debug",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1550,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "f8e677d462141a66",
+        "type": "inject",
+        "z": "79f3beff9e89fb63",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 820,
+        "wires": [
+            [
+                "649ab390f0b29ffa"
+            ]
+        ]
+    },
+    {
+        "id": "aa9e82c5edea2f6f",
+        "type": "inject",
+        "z": "79f3beff9e89fb63",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 860,
+        "wires": [
+            [
+                "e6ceb12b7a0a6dc7"
+            ]
+        ]
+    },
+    {
+        "id": "649ab390f0b29ffa",
+        "type": "function",
+        "z": "79f3beff9e89fb63",
+        "name": "Head 1 ADD",
+        "func": "var two_channel_devices = flow.get('two_channel_devices')\nif(typeof two_channel_devices == 'undefined'){\n    two_channel_devices = [];\n    flow.set('two_channel_devices', two_channel_devices);\n    \n}\ntwo_channel_devices.push({\n    \"Sensor\": \"00:13:A2:00:41:C3:D3:32\",\n    \"Head\": \"1\"\n})\nflow.set('two_channel_devices', two_channel_devices)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 820,
+        "wires": [
+            [
+                "85465387272c7a7c"
+            ]
+        ]
+    },
+    {
+        "id": "85465387272c7a7c",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 650,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "e6ceb12b7a0a6dc7",
+        "type": "function",
+        "z": "79f3beff9e89fb63",
+        "name": "Head 2 ADD",
+        "func": "var two_channel_devices = flow.get('two_channel_devices')\nif(typeof two_channel_devices == 'undefined'){\n    two_channel_devices = [];\n    flow.set('two_channel_devices', two_channel_devices);\n    \n}\ntwo_channel_devices.push({\n    \"Sensor\": \"00:13:A2:00:41:C3:D3:32\",\n    \"Head\": \"2\"\n})\nflow.set('two_channel_devices', two_channel_devices)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 860,
+        "wires": [
+            [
+                "85465387272c7a7c"
+            ]
+        ]
+    },
+    {
+        "id": "9856f070ac850180",
+        "type": "function",
+        "z": "79f3beff9e89fb63",
+        "name": "Add incomming device to context",
+        "func": "var requested_device = msg.sensor_address\nvar requested_devices_object = {}\nvar currentTime = Date.now();\n\n\n\nvar recent_time_domain_requests = flow.get('recent_time_domain_requests');\n\nif(typeof recent_time_domain_requests == 'undefined'){\n    requested_devices_object[requested_device] = currentTime\n    flow.set('recent_time_domain_requests',requested_devices_object);\n    return msg;\n    // Flow Object was empty, set it and done.\n}else{\n    var exists = false;\n    if (recent_time_domain_requests.hasOwnProperty(requested_device))\n    {\n        //node.warn(\"already exists\")\n        exists = true;\n    } else {\n        //node.warn(\"does not exist\")\n        exists = false;\n        requested_devices_object[requested_device] = currentTime\n        flow.set('recent_time_domain_requests',requested_devices_object);\n    }\n    \n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1580,
+        "y": 860,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "15f94b0ac26a5126",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "Two Channel Not in Context Array",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 1580,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "cdaee958c79a6c6e",
+        "type": "delay",
+        "z": "79f3beff9e89fb63",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "100",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1530,
+        "y": 960,
+        "wires": [
+            [
+                "f658481a720a04b5",
+                "4356ec375f86b337"
+            ]
+        ]
+    },
+    {
+        "id": "833ea705364f491e",
+        "type": "switch",
+        "z": "79f3beff9e89fb63",
+        "name": "is Normal Transmission (81)",
+        "property": "payload.sensor_data.x1_rms_ACC_G",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 660,
+        "y": 520,
+        "wires": [
+            [
+                "068aa04690d9a782"
+            ]
+        ]
+    },
+    {
+        "id": "8fae7e479f09ad80",
+        "type": "inject",
+        "z": "79f3beff9e89fb63",
+        "name": "Two Channel Simulated Summary Transmission",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "gateway/v02/R_294/sensor/00:13:A2:00:41:C3:D3:32",
+        "payload": "{\"nodeId\":74,\"firmware\":3,\"battery\":\"3.29\",\"battery_percent\":\"99.64\",\"counter\":98,\"sensor_type\":81,\"sensor_data\":{\"mode\":2,\"s1_odr\":\"400Hz\",\"s1_temperature\":21.02,\"x1_rms_ACC_G\":0,\"x1_max_ACC_G\":0,\"x1_velocity_mm_sec\":0,\"x1_displacement_mm\":0,\"x1_peak_one_Hz\":0,\"x1_peak_two_Hz\":0,\"x1_peak_three_Hz\":0,\"y1_rms_ACC_G\":0,\"y1_max_ACC_G\":0,\"y1_velocity_mm_sec\":0,\"y1_displacement_mm\":0,\"y1_peak_one_Hz\":0,\"y1_peak_two_Hz\":0,\"y1_peak_three_Hz\":0,\"z1_rms_ACC_G\":0,\"z1_max_ACC_G\":0,\"z1_velocity_mm_sec\":0,\"z1_displacement_mm\":0,\"z1_peak_one_Hz\":0,\"z1_peak_two_Hz\":0,\"z1_peak_three_Hz\":0,\"s2_odr\":\"800Hz\",\"s2_temperature\":21.28,\"x2_rms_ACC_G\":0,\"x2_max_ACC_G\":0,\"x2_velocity_mm_sec\":0,\"x2_displacement_mm\":0,\"x2_peak_one_Hz\":0,\"x2_peak_two_Hz\":0,\"x2_peak_three_Hz\":0,\"y2_rms_ACC_G\":0,\"y2_max_ACC_G\":0,\"y2_velocity_mm_sec\":0,\"y2_displacement_mm\":0,\"y2_peak_one_Hz\":0,\"y2_peak_two_Hz\":0,\"y2_peak_three_Hz\":0,\"z2_rms_ACC_G\":0,\"z2_max_ACC_G\":0,\"z2_velocity_mm_sec\":0,\"z2_displacement_mm\":0,\"z2_peak_one_Hz\":0,\"z2_peak_two_Hz\":0,\"z2_peak_three_Hz\":0},\"sensor_name\":\"Two Channel Vibration Plus\",\"type\":\"sensor_data\",\"addr\":\"00:13:A2:00:41:C3:D3:32\",\"received\":1643771710468,\"original\":{\"mac\":\"00:13:a2:00:41:c3:d3:32\",\"receive_options\":{\"ack\":0,\"broadcast\":0,\"type\":\"\"},\"data\":[127,74,3,3,255,98,0,81,0,2,9,8,54,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,8,80,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\"rssi\":{},\"type\":\"receive_packet\"},\"rssi\":44,\"modem_mac\":\"00:13:A2:00:41:C8:E0:36\"}",
+        "payloadType": "json",
+        "x": 220,
+        "y": 440,
+        "wires": [
+            [
+                "b79c7e5b1d7c46e7"
+            ]
+        ]
+    },
+    {
+        "id": "fe4b9d9961fa53f3",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "TwoChannel",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 930,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "1a69a526f120312a",
+        "type": "ncd-gateway-node",
+        "z": "79f3beff9e89fb63",
+        "name": "Request FFT",
+        "connection": "8ea87dced5dc17d0",
+        "unknown_devices": 0,
+        "outputs": 1,
+        "x": 1760,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f658481a720a04b5",
+        "type": "ncd-gateway-node",
+        "z": "79f3beff9e89fb63",
+        "name": "Request FFT",
+        "connection": "8ea87dced5dc17d0",
+        "unknown_devices": 0,
+        "outputs": 1,
+        "x": 1770,
+        "y": 960,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e1614358f177b56d",
+        "type": "ncd-gateway-node",
+        "z": "79f3beff9e89fb63",
+        "name": "",
+        "connection": "8ea87dced5dc17d0",
+        "unknown_devices": true,
+        "outputs": 2,
+        "x": 150,
+        "y": 200,
+        "wires": [
+            [
+                "accefc8d23a96db2",
+                "8efb38061ab9032d"
+            ],
+            [
+                "bbde351a1f6433e7"
+            ]
+        ]
+    },
+    {
+        "id": "83bf0f1428385b14",
+        "type": "ncd-gateway-node",
+        "z": "79f3beff9e89fb63",
+        "name": "",
+        "connection": "8ea87dced5dc17d0",
+        "unknown_devices": 0,
+        "outputs": 1,
+        "x": 130,
+        "y": 540,
+        "wires": [
+            [
+                "b79c7e5b1d7c46e7"
+            ]
+        ]
+    },
+    {
+        "id": "921177ce2ee59dae",
+        "type": "inject",
+        "z": "79f3beff9e89fb63",
+        "name": "Two Channel Simulated Summary Transmission",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "gateway/v02/R_294/sensor/00:13:A2:00:41:C3:D3:32",
+        "payload": "{\"nodeId\":74,\"firmware\":3,\"battery\":\"3.29\",\"battery_percent\":\"99.64\",\"counter\":107,\"sensor_type\":81,\"sensor_data\":{\"mode\":2,\"s1_odr\":\"400Hz\",\"s1_temperature\":20.41,\"x1_rms_ACC_G\":0,\"x1_max_ACC_G\":0,\"x1_velocity_mm_sec\":0,\"x1_displacement_mm\":0,\"x1_peak_one_Hz\":0,\"x1_peak_two_Hz\":0,\"x1_peak_three_Hz\":0,\"y1_rms_ACC_G\":0,\"y1_max_ACC_G\":0,\"y1_velocity_mm_sec\":0,\"y1_displacement_mm\":0,\"y1_peak_one_Hz\":0,\"y1_peak_two_Hz\":0,\"y1_peak_three_Hz\":0,\"z1_rms_ACC_G\":0,\"z1_max_ACC_G\":0,\"z1_velocity_mm_sec\":0,\"z1_displacement_mm\":0,\"z1_peak_one_Hz\":0,\"z1_peak_two_Hz\":0,\"z1_peak_three_Hz\":0,\"s2_odr\":\"800Hz\",\"s2_temperature\":20.64,\"x2_rms_ACC_G\":0,\"x2_max_ACC_G\":0,\"x2_velocity_mm_sec\":0,\"x2_displacement_mm\":0,\"x2_peak_one_Hz\":0,\"x2_peak_two_Hz\":0,\"x2_peak_three_Hz\":0,\"y2_rms_ACC_G\":0,\"y2_max_ACC_G\":0,\"y2_velocity_mm_sec\":0,\"y2_displacement_mm\":0,\"y2_peak_one_Hz\":0,\"y2_peak_two_Hz\":0,\"y2_peak_three_Hz\":0,\"z2_rms_ACC_G\":0,\"z2_max_ACC_G\":0,\"z2_velocity_mm_sec\":0,\"z2_displacement_mm\":0,\"z2_peak_one_Hz\":0,\"z2_peak_two_Hz\":0,\"z2_peak_three_Hz\":0},\"sensor_name\":\"Two Channel Vibration Plus\",\"type\":\"sensor_data\",\"addr\":\"00:13:a2:00:41:c3:d3:32\",\"received\":1643780710628,\"original\":{\"mac\":\"00:13:a2:00:41:c3:d3:32\",\"receive_options\":{\"ack\":0,\"broadcast\":0,\"type\":\"\"},\"data\":[127,74,3,3,255,107,0,81,0,2,9,7,249,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,8,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\"rssi\":{},\"type\":\"receive_packet\"},\"rssi\":51}",
+        "payloadType": "json",
+        "x": 220,
+        "y": 400,
+        "wires": [
+            [
+                "b79c7e5b1d7c46e7"
+            ]
+        ]
+    },
+    {
+        "id": "4356ec375f86b337",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "TwoChannel FFT Request",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1890,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "1a8a2b301a0427cc",
+        "type": "switch",
+        "z": "79f3beff9e89fb63",
+        "name": "One Channel or Two Channel or Predictive?",
+        "property": "payload.sensor_name",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Two Channel Vibration Plus",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Condition Based/Predictive Maintenance Sensor",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 630,
+        "y": 220,
+        "wires": [
+            [
+                "fe4b9d9961fa53f3",
+                "f5be427e802d3bf6"
+            ],
+            [
+                "7c8ccb85894f30c7",
+                "8a34f0f55bd80a2a"
+            ],
+            [
+                "14d39516657564f8"
+            ]
+        ]
+    },
+    {
+        "id": "f5be427e802d3bf6",
+        "type": "function",
+        "z": "79f3beff9e89fb63",
+        "name": "Set Topic - TimeDomain - Two Channel",
+        "func": "\nlet gateway_name = global.get(\"gateway\");\nlet sensor_mac = msg.payload.addr\nmsg.payload.addr = msg.payload.addr.toUpperCase();\nmsg.topic = \"gateway/v02/\" + gateway_name + \"/time_domain/\" + msg.payload.addr\nsensor_mac = sensor_mac.toUpperCase();\n\n// Remove from Flow Variable as a successfull FFT\n\nlet recent_time_domain_requests = flow.get('recent_time_domain_requests')\n\nlet two_channel_devices = flow.get('two_channel_devices')\n\n// Check the 'two_channel_devices' flow variable as well\nfor ( var j = 0; j < two_channel_devices.length; j++)\n    {\n        if (two_channel_devices[j].Sensor == sensor_mac)\n            {\n                two_channel_devices.splice(j,1);\n            }\n    } // this for loop removes the sensor from devices, indicating we've gotten the FFT we requested\n\n\ndelete recent_time_domain_requests[sensor_mac]\nflow.set('recent_time_domain_requests', recent_time_domain_requests)\n\nflow.set('two_channel_devices', two_channel_devices)\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1020,
+        "y": 20,
+        "wires": [
+            [
+                "250c90a0fb724daf",
+                "aa6f802739ce5635"
+            ]
+        ]
+    },
+    {
+        "id": "1019755ccdf90913",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "Two Channel Standard",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1130,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "6e742109f6cbeb2f",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "Is an FFT",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 590,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "27fd0bb3123d0551",
+        "type": "comment",
+        "z": "79f3beff9e89fb63",
+        "name": "FFT Requestor v2",
+        "info": "",
+        "x": 150,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "3381b651a312540a",
+        "type": "function",
+        "z": "79f3beff9e89fb63",
+        "name": "Prepare HTTP Get",
+        "func": "msg.url = global.get(\"fftrequestor_v1_url\") + \"/gateway/?gatewayId=\" + global.get(\"gateway\")\nmsg.headers = {\n                        \"Authorization\": 'euFOoxczQGaW13o8AXh5EnIa6CogGdu6S7BPKZjO67SvRIxImVYuWWB2M8'\n                }\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 1300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cd36e5e207aaa50b",
+        "type": "inject",
+        "z": "79f3beff9e89fb63",
+        "name": "Every Minute",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 1300,
+        "wires": [
+            [
+                "bf9b164504348a27"
+            ]
+        ]
+    },
+    {
+        "id": "6a0801b90df7713f",
+        "type": "http request",
+        "z": "79f3beff9e89fb63",
+        "name": "GET Requests",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 820,
+        "y": 1300,
+        "wires": [
+            [
+                "23ee93f8bb6798a5"
+            ]
+        ]
+    },
+    {
+        "id": "6085031972b8b805",
+        "type": "function",
+        "z": "79f3beff9e89fb63",
+        "name": "Process Requests",
+        "func": "\nvar existingDevices = flow.get('devices');\n\nfor (var eachDevice in msg.payload.devices)\n    {\n        //node.warn(\"Status: \" + msg.payload.devices[eachDevice].status)\n        if (msg.payload.devices[eachDevice].status == 'requested')\n            {\n                // eachDevice.sensor_hardware_mac ++ to flow.devices\n                // Send Message to POST to mark as In Progress\n                var newDevices = []\n                newDevices.push(msg.payload.devices[eachDevice].sensor_hardware_mac.toUpperCase())\n                if(typeof existingDevices == 'undefined'){\n                    node.warn(\"existingDevices undefined\")\n                    flow.set('devices',newDevices);\n                \n                }else{\n                    for(let newDevice of newDevices){\n                        exists = false;\n                        for(let existingDevice of existingDevices){\n                            if(newDevice == existingDevice){\n                                exists = true;\n                                node.warn(\"Break as existing already\")\n                                break;\n                            }\n                        }\n                        if(!exists){\n                            existingDevices.push(newDevice);\n                            node.warn(\"add newDevice\")\n                        } \n                    }\n                }\n                \n                //flow.set('devices',existingDevices);\n                \n                var newmsg = {}\n                newmsg.url = global.get(\"dashboard_url\")\n                newmsg.method = \"PUT\"\n                newmsg.payload = \n                        {\n                            \"deviceId\": msg.payload.devices[eachDevice].deviceId,\n                            \"gateway\": global.get(\"gateway\"),\n                            \"status\"  : \"pending\"\n                        }\n                newmsg.headers = {\n                        \"Authorization\": 'euFOoxczQGaW13o8AXh5EnIa6CogGdu6S7BPKZjO67SvRIxImVYuWWB2M8'\n                    }\n                node.send([null, newmsg])\n            }\n    }\nreturn [msg, null];\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1030,
+        "y": 1300,
+        "wires": [
+            [
+                "bb5f8c80dc28a2ad"
+            ],
+            [
+                "cc184f72e9e073fb",
+                "6b8b488c21e9c90f"
+            ]
+        ]
+    },
+    {
+        "id": "bb5f8c80dc28a2ad",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "Main Return",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1270,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "cc184f72e9e073fb",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "ForEach Return",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1280,
+        "y": 1340,
+        "wires": []
+    },
+    {
+        "id": "6b8b488c21e9c90f",
+        "type": "http request",
+        "z": "79f3beff9e89fb63",
+        "name": "PUT Request",
+        "method": "use",
+        "ret": "obj",
+        "paytoqs": "body",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1280,
+        "y": 1300,
+        "wires": [
+            [
+                "2cebb8a57d93baa0"
+            ]
+        ]
+    },
+    {
+        "id": "2cebb8a57d93baa0",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "PUT Result",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1470,
+        "y": 1300,
+        "wires": []
+    },
+    {
+        "id": "bf9b164504348a27",
+        "type": "delay",
+        "z": "79f3beff9e89fb63",
+        "name": "Random Time Delay",
+        "pauseType": "random",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "15",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 380,
+        "y": 1300,
+        "wires": [
+            [
+                "3381b651a312540a"
+            ]
+        ]
+    },
+    {
+        "id": "c1a7dbc674f9ef98",
+        "type": "inject",
+        "z": "79f3beff9e89fb63",
+        "name": "Press to Check Now",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 1340,
+        "wires": [
+            [
+                "3381b651a312540a"
+            ]
+        ]
+    },
+    {
+        "id": "23ee93f8bb6798a5",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "GET Result",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1020,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "de913af1ee59e619",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "One Channel Standard",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1130,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "5ad733a14bb0f1be",
+        "type": "inject",
+        "z": "79f3beff9e89fb63",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 900,
+        "wires": [
+            [
+                "93fa83407ed3a0ba"
+            ]
+        ]
+    },
+    {
+        "id": "93fa83407ed3a0ba",
+        "type": "function",
+        "z": "79f3beff9e89fb63",
+        "name": "Head 2 ADD",
+        "func": "var two_channel_devices = flow.get('two_channel_devices')\nif(typeof two_channel_devices == 'undefined'){\n    two_channel_devices = [];\n    flow.set('two_channel_devices', two_channel_devices);\n    \n}\ntwo_channel_devices.push({\n    \"Sensor\": \"00:13:A2:00:41:C3:D3:32\",\n    \"Head\": \"2\"\n})\nflow.set('two_channel_devices', two_channel_devices)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 900,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "26f32bbdd8fbbcbd",
+        "type": "switch",
+        "z": "79f3beff9e89fb63",
+        "name": "is Normal Transmission (82)",
+        "property": "payload.sensor_data.Ext_temperature",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 660,
+        "y": 560,
+        "wires": [
+            [
+                "068aa04690d9a782"
+            ]
+        ]
+    },
+    {
+        "id": "b6781696ed9bbdcd",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "Predictive Standard",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1120,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "7a7ebf43d82d6a0d",
+        "type": "function",
+        "z": "79f3beff9e89fb63",
+        "name": "(Predictive) New Check Devices",
+        "func": "var devices = flow.get('devices');\nvar ramdevices = flow.get('ramdevices');\nvar deviceID = msg.payload.addr.toUpperCase();\nif(typeof devices == 'undefined')return;\nif(typeof ramdevices == 'undefined'){\n    ramdevices = [];\n    flow.set('ramdevices',ramdevices);\n    \n}\nfor(i = 0; i < devices.length; i++){\n    // console.log('device: '+devices[i]+' deviceID: '+deviceID);\n    if(deviceID.toUpperCase() == devices[i].toUpperCase() && msg.payload.sensor_data.hasOwnProperty(\"x_rms_ACC_G\")){\n        if(ramdevices.includes(deviceID)){\n          msg.payload.address = deviceID; \n          //node.warn(\"ramdevices DID include this deviceID\")\n          node.warn(\"Sending direct FFT Request to \" + deviceID)\n        }\n        else{\n           msg.payload.address = \"00:00:00:00:00:00:ff:ff\" ;\n           ramdevices.push(deviceID);\n           //node.warn(\"ramdevices DID NOT include this deviceID, sending request broadcast\")\n           node.warn(\"Sending FFT Request as Broadcast for \" + deviceID)\n        }\n //       msg.payload.address = deviceID;\n        // msg.payload.address = \"00:00:00:00:00:00:ff:ff\"\n        msg.payload.data = [0xF4,0x4F,0x00,0x00,0x50,0x13];\n        // devices.splice(i,1);\n        flow.set(\"ramdevices\",ramdevices);\n        return [msg, null];\n        \n    }\n}\n\nreturn [null, msg]",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1150,
+        "y": 700,
+        "wires": [
+            [
+                "e39c135608c8e94a",
+                "f8ac8334f3836801",
+                "e86a093bb75745c6"
+            ],
+            [
+                "6e70332e281aed1f"
+            ]
+        ]
+    },
+    {
+        "id": "6e70332e281aed1f",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "Predictive Not in Context Array",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 1530,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "e39c135608c8e94a",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "Predictive Request FFT Sent",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload.addr",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 1520,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "e86a093bb75745c6",
+        "type": "function",
+        "z": "79f3beff9e89fb63",
+        "name": "Add incomming device to context",
+        "func": "var requested_device = msg.payload.addr.toUpperCase()\nvar requested_devices_object = {}\nvar currentTime = Date.now();\n\n\n\nvar recent_time_domain_requests = flow.get('recent_time_domain_requests');\n\nif(typeof recent_time_domain_requests == 'undefined'){\n    requested_devices_object[requested_device] = currentTime\n    flow.set('recent_time_domain_requests',requested_devices_object);\n    return msg;\n    // Flow Object was empty, set it and done.\n}else{\n    var exists = false;\n    if (recent_time_domain_requests.hasOwnProperty(requested_device))\n    {\n        //node.warn(\"already exists\")\n        exists = true;\n    } else {\n        //node.warn(\"does not exist\")\n        exists = false;\n        requested_devices_object[requested_device] = currentTime\n        flow.set('recent_time_domain_requests',requested_devices_object);\n    }\n    \n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1540,
+        "y": 580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f8ac8334f3836801",
+        "type": "delay",
+        "z": "79f3beff9e89fb63",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "100",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "outputs": 1,
+        "x": 1470,
+        "y": 680,
+        "wires": [
+            [
+                "ee06faf3cd58f04c"
+            ]
+        ]
+    },
+    {
+        "id": "ee06faf3cd58f04c",
+        "type": "ncd-gateway-node",
+        "z": "79f3beff9e89fb63",
+        "name": "Request FFT",
+        "connection": "8ea87dced5dc17d0",
+        "unknown_devices": 0,
+        "outputs": 1,
+        "x": 1720,
+        "y": 680,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7c8ccb85894f30c7",
+        "type": "function",
+        "z": "79f3beff9e89fb63",
+        "name": "Set Topic - TimeDomain - Predictive",
+        "func": "\nlet gateway_name = global.get(\"gateway\");\nmsg.payload.addr = msg.payload.addr.toUpperCase();\nsensor_mac = msg.payload.addr\nmsg.topic = \"gateway/v02/\" + gateway_name + \"/time_domain/\" + msg.payload.addr\nsensor_mac = sensor_mac.toUpperCase();\n\n\n// Remove from Flow Variable as a successfull FFT\n\nlet recent_time_domain_requests = flow.get('recent_time_domain_requests')\nlet devices = flow.get('devices')\n\n\n//Commented out so I can test the timer function on this down below.\nfor ( var i = 0; i < devices.length; i++)\n    {\n        if (devices[i] == sensor_mac)\n            {\n                devices.splice(i,1);\n            }\n    } // this for loop removes the sensor from devices, indicating we've gotten the FFT we requested\n\n\ndelete recent_time_domain_requests[sensor_mac]\nflow.set('recent_time_domain_requests', recent_time_domain_requests)\nflow.set('devices', devices)\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1010,
+        "y": 120,
+        "wires": [
+            [
+                "aa6f802739ce5635",
+                "250c90a0fb724daf"
+            ]
+        ]
+    },
+    {
+        "id": "8a34f0f55bd80a2a",
+        "type": "debug",
+        "z": "79f3beff9e89fb63",
+        "name": "Predictive",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "a9e8e82eba9e38fe",
+        "type": "comment",
+        "z": "79f3beff9e89fb63",
+        "name": "Version",
+        "info": "2022_02_23",
+        "x": 330,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "bedbd0ef820c47e4",
+        "type": "split",
+        "z": "371f885e4cf9bb93",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "topic",
+        "x": 390,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "772a91bcbda158a8",
+        "type": "inject",
+        "z": "371f885e4cf9bb93",
+        "name": "Insert FFT On Demand [ba:5a]",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"devices\":[\"00:13:a2:00:41:ba:a4:5a\"]}",
+        "payloadType": "json",
+        "x": 190,
+        "y": 460,
+        "wires": [
+            [
+                "1393b125d6bc7f83",
+                "c246f60587eb254e"
+            ]
+        ]
+    },
+    {
+        "id": "1393b125d6bc7f83",
+        "type": "function",
+        "z": "371f885e4cf9bb93",
+        "name": "Add incomming device to context",
+        "func": "var newDevices = msg.payload.devices;\nvar existingDevices = flow.get('devices');\n\nif(typeof existingDevices == 'undefined'){\n    flow.set('devices',newDevices);\n    msg.payload.devices = newDevices;\n    return msg;\n}else{\n    for(let newDevice of newDevices){\n        exists = false;\n        for(let existingDevice of existingDevices){\n            if(newDevice == existingDevice){\n                exists = true;\n                break;\n            }\n        }\n        if(!exists){\n            existingDevices.push(newDevice);\n        } \n    }\n}\nflow.set('devices',existingDevices);\nmsg.payload.devices = existingDevices;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a9623318a558d63b",
+        "type": "debug",
+        "z": "371f885e4cf9bb93",
+        "name": "Config Output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 410,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "be5c2a7832f347d6",
+        "type": "change",
+        "z": "371f885e4cf9bb93",
+        "name": "Empty Out Devices and ramdevices",
+        "rules": [
+            {
+                "t": "set",
+                "p": "devices",
+                "pt": "flow",
+                "to": "[]",
+                "tot": "json"
+            },
+            {
+                "t": "set",
+                "p": "ramdevices",
+                "pt": "flow",
+                "to": "[]",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 620,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "09b945d2e88e5c73",
+        "type": "inject",
+        "z": "371f885e4cf9bb93",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 340,
+        "wires": [
+            [
+                "be5c2a7832f347d6"
+            ]
+        ]
+    },
+    {
+        "id": "c246f60587eb254e",
+        "type": "debug",
+        "z": "371f885e4cf9bb93",
+        "name": "Inserted into Context Array",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "a0cb19d77057181a",
+        "type": "inject",
+        "z": "371f885e4cf9bb93",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 380,
+        "wires": [
+            [
+                "90bdc491cdba92c5"
+            ]
+        ]
+    },
+    {
+        "id": "90bdc491cdba92c5",
+        "type": "change",
+        "z": "371f885e4cf9bb93",
+        "name": "Empty Out recent_time_domain_requests",
+        "rules": [
+            {
+                "t": "set",
+                "p": "recent_time_domain_requests",
+                "pt": "flow",
+                "to": "[]",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "61ca2f89bb046142",
+        "type": "inject",
+        "z": "371f885e4cf9bb93",
+        "name": "Insert FFT On Demand [8e:fe]",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"devices\":[\"00:13:a2:00:41:d2:8e:fe\"]}",
+        "payloadType": "json",
+        "x": 180,
+        "y": 420,
+        "wires": [
+            [
+                "1393b125d6bc7f83"
+            ]
+        ]
+    },
+    {
+        "id": "6e82e5bc79cfb1b6",
+        "type": "ncd-wireless-node",
+        "z": "371f885e4cf9bb93",
+        "name": "",
+        "connection": "8ea87dced5dc17d0",
+        "config_comm": "8ea87dced5dc17d0",
+        "addr": "00:13:a2:00:41:c3:d3:32",
+        "sensor_type": "81",
+        "auto_config": true,
+        "node_id_delay_active": false,
+        "node_id": "0",
+        "delay": "10",
+        "destination": "0000FFFF",
+        "power_active": "",
+        "power": 4,
+        "retries_active": "",
+        "retries": 10,
+        "pan_id_active": "",
+        "pan_id": "7FFF",
+        "change_enabled": "",
+        "change_pr": "0",
+        "change_interval": "0",
+        "cm_calibration": "60.6",
+        "bp_altitude": "0",
+        "bp_pressure": "0",
+        "bp_temp_prec": "0",
+        "bp_press_prec": "0",
+        "amgt_accel": "0",
+        "amgt_mag": "0",
+        "amgt_gyro": "0",
+        "impact_accel": "0",
+        "impact_data_rate": "4",
+        "impact_threshold": 25,
+        "impact_duration": 1,
+        "activ_interr_x": 1,
+        "activ_interr_y": 2,
+        "activ_interr_z": 4,
+        "activ_interr_op": 8,
+        "force_calibration_co2_auto_config": "",
+        "force_calibration_co2": 400,
+        "filtering": 0,
+        "data_rate": 5,
+        "time_series": 0,
+        "reading_type": 1,
+        "mode_80_active": true,
+        "mode_80": "2",
+        "measurement_mode_80_active": false,
+        "on_request_timeout_80_active": true,
+        "on_request_timeout_80": "10",
+        "deadband_80_active": false,
+        "deadband_80": "",
+        "filter_80_active": "",
+        "filter_80": 0,
+        "output_data_rate_p1_81_active": false,
+        "output_data_rate_p2_81_active": false,
+        "sampling_duration_p1_81_active": false,
+        "sampling_duration_p1_81": "",
+        "sampling_duration_p2_81_active": false,
+        "sampling_duration_p2_81": "",
+        "current_calibration_82": "",
+        "current_calibration_82_active": false,
+        "output_data_rate_101_active": "",
+        "output_data_rate_101": 0,
+        "sampling_duration_101_active": "",
+        "sampling_duration_101": 1,
+        "sampling_interval_101_active": true,
+        "sampling_interval_101": "8",
+        "full_scale_range_101_active": "",
+        "full_scale_range_101": 1,
+        "x_axis_101": "",
+        "y_axis_101": "",
+        "z_axis_101": "",
+        "x": 130,
+        "y": 260,
+        "wires": [
+            [
+                "a9623318a558d63b",
+                "bedbd0ef820c47e4"
+            ]
+        ]
+    },
+    {
+        "id": "9b28908cfdfa9a41",
+        "type": "ncd-gateway-node",
+        "z": "371f885e4cf9bb93",
+        "name": "",
+        "connection": "8ea87dced5dc17d0",
+        "unknown_devices": 0,
+        "outputs": 1,
+        "x": 150,
+        "y": 200,
+        "wires": [
+            [
+                "947d6c58d4fc3174"
+            ]
+        ]
+    },
+    {
+        "id": "947d6c58d4fc3174",
+        "type": "debug",
+        "z": "371f885e4cf9bb93",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 420,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "fa58c0f909ee6b44",
+        "type": "inject",
+        "z": "371f885e4cf9bb93",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 100,
+        "wires": [
+            [
+                "f54f1723c1950c37"
+            ]
+        ]
+    },
+    {
+        "id": "f54f1723c1950c37",
+        "type": "debug",
+        "z": "371f885e4cf9bb93",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 350,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "b8faaa00624d6eb3",
+        "type": "ncd-wireless-node",
+        "z": "371f885e4cf9bb93",
+        "name": "",
+        "connection": "8ea87dced5dc17d0",
+        "config_comm": "8ea87dced5dc17d0",
+        "addr": "00:13:a2:00:41:ed:ca:27",
+        "sensor_type": "82",
+        "auto_config": true,
+        "node_id_delay_active": true,
+        "node_id": "0",
+        "delay": "10",
+        "destination": "0000ffff",
+        "power_active": "",
+        "power": 4,
+        "retries_active": "",
+        "retries": 10,
+        "pan_id_active": "",
+        "pan_id": "7fff",
+        "change_enabled": "",
+        "change_pr": "0",
+        "change_interval": "0",
+        "cm_calibration": "60.6",
+        "bp_altitude": "0",
+        "bp_pressure": "0",
+        "bp_temp_prec": "0",
+        "bp_press_prec": "0",
+        "amgt_accel": "0",
+        "amgt_mag": "0",
+        "amgt_gyro": "0",
+        "impact_accel": "0",
+        "impact_data_rate": "4",
+        "impact_threshold": 25,
+        "impact_duration": 1,
+        "activ_interr_x": 1,
+        "activ_interr_y": 2,
+        "activ_interr_z": 4,
+        "activ_interr_op": 8,
+        "force_calibration_co2_auto_config": "",
+        "force_calibration_co2": 400,
+        "filtering": 0,
+        "data_rate": 5,
+        "time_series": 0,
+        "reading_type": 1,
+        "mode_80_active": true,
+        "mode_80": "2",
+        "measurement_mode_80_active": false,
+        "on_request_timeout_80_active": true,
+        "on_request_timeout_80": "10",
+        "deadband_80_active": false,
+        "deadband_80": "",
+        "filter_80_active": true,
+        "filter_80": "1",
+        "output_data_rate_p1_81_active": false,
+        "output_data_rate_p2_81_active": false,
+        "sampling_duration_p1_81_active": false,
+        "sampling_duration_p1_81": "",
+        "sampling_duration_p2_81_active": false,
+        "sampling_duration_p2_81": "",
+        "current_calibration_82": "",
+        "current_calibration_82_active": false,
+        "output_data_rate_101_active": "",
+        "output_data_rate_101": 0,
+        "sampling_duration_101_active": "",
+        "sampling_duration_101": 1,
+        "sampling_interval_101_active": true,
+        "sampling_interval_101": "8",
+        "full_scale_range_101_active": "",
+        "full_scale_range_101": 1,
+        "x_axis_101": "",
+        "y_axis_101": "",
+        "z_axis_101": "",
+        "x": 130,
+        "y": 600,
+        "wires": [
+            [
+                "76f919d01ecee4af"
+            ]
+        ]
+    },
+    {
+        "id": "76f919d01ecee4af",
+        "type": "debug",
+        "z": "371f885e4cf9bb93",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 360,
+        "y": 600,
+        "wires": []
+    }
+]

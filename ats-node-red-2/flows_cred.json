@@ -1,0 +1,7 @@
+{
+    "$": "efbcc2e56bde2eba1157e251b7550c2f4sB8D3OkoWB6Zyo9hxvjd6YirOhCIEEuhy7N/rWRnBQscy1WzhBEwYZdLgUN5P9ULBswBMYtQJi5ixSNjsETnmY3jw==",
+    "17dc2d35.d569cb": {
+        "user": "${MQTT_USER}",
+        "password": "${MQTT_PASS}"
+    }
+}

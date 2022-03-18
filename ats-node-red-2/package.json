@@ -1,0 +1,19 @@
+{
+  "name": "node-red-project",
+  "description": "initially created for you by Node-RED 2.2.1 ",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "node-red": "2.2.2",
+    "ncd-red-wireless-2": "^2.0.4",
+    "node-red-contrib-play-audio": "^2.5.0",
+    "node-red-node-pi-gpio": "^2.0.1",
+    "node-red-node-ping": "^0.3.1",
+    "node-red-node-random": "^0.4.0",
+    "node-red-node-serialport": "^0.15.0",
+    "node-red-node-smooth": "^0.1.2"
+  },
+  "engines": {
+    "node": ">=0.10.3"
+  }
+}
